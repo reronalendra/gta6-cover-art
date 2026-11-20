@@ -1,0 +1,261 @@
+/* Vice Panel Studio — editor chrome. All artwork is drawn on canvas; this
+   file only styles the controls around it. */
+@font-face {
+  font-family: 'Anton';
+  src: url('./fonts/Anton-Regular.ttf') format('truetype');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Bebas Neue';
+  src: url('./fonts/BebasNeue-Regular.ttf') format('truetype');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Pacifico';
+  src: url('./fonts/Pacifico-Regular.ttf') format('truetype');
+  font-display: swap;
+}
+
+:root {
+  --ink: #14091f;
+  --panel: #1d0f2b;
+  --panel-2: #261338;
+  --line: #3d2154;
+  --text: #f5eefc;
+  --muted: #c3aed6;
+  --pink: #ff2e88;
+  --cyan: #2ee6ff;
+  --gold: #ffd23f;
+  --radius: 12px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--ink);
+  color: var(--text);
+  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 20px;
+  background: linear-gradient(90deg, #2b0a4a, #5c1046 55%, #8a1d2e);
+  border-bottom: 3px solid var(--pink);
+}
+
+.brand { display: flex; align-items: center; gap: 14px; }
+.brand-mark {
+  width: 46px; height: 46px;
+  display: grid; place-items: center;
+  background: var(--gold);
+  color: #1c0b2e;
+  font-family: 'Anton', sans-serif;
+  font-size: 22px;
+  border-radius: 10px;
+  transform: rotate(-4deg);
+  box-shadow: 3px 3px 0 #ff2e88;
+}
+.brand h1 {
+  margin: 0;
+  font-family: 'Anton', sans-serif;
+  font-weight: 400;
+  font-size: 26px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.brand p { margin: 0; color: #ffd9ec; font-size: 13px; }
+
+.top-actions { display: flex; gap: 8px; }
+
+button, .btn {
+  appearance: none;
+  border: 1px solid var(--line);
+  background: var(--panel-2);
+  color: var(--text);
+  border-radius: 8px;
+  padding: 8px 14px;
+  font: inherit;
+  cursor: pointer;
+}
+button:hover, .btn:hover { border-color: var(--pink); }
+button:disabled { opacity: 0.45; cursor: default; }
+.btn.primary {
+  background: var(--pink);
+  border-color: var(--pink);
+  color: #fff;
+  font-weight: 700;
+}
+.btn.primary:hover { background: #ff4d9c; }
+
+.studio {
+  display: grid;
+  grid-template-columns: minmax(0, 1.65fr) minmax(300px, 1fr);
+  gap: 18px;
+  padding: 18px 20px;
+  max-width: 1480px;
+  margin: 0 auto;
+}
+@media (max-width: 980px) {
+  .studio { grid-template-columns: 1fr; }
+}
+
+.preview-col { min-width: 0; }
+.canvas-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  color: var(--muted);
+  font-size: 13px;
+}
+.canvas-bar select {
+  padding: 6px 8px;
+  background: #12081d;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--text);
+  font: inherit;
+}
+.canvas-wrap {
+  background: #0a0512;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 12px;
+}
+.canvas-wrap canvas {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  max-height: 70vh;
+  height: auto;
+  margin: 0 auto;
+  border-radius: 6px;
+  cursor: grab;
+  touch-action: none;
+}
+.canvas-wrap canvas:active { cursor: grabbing; }
+.canvas-hint { margin: 10px 2px 0; color: var(--muted); font-size: 13px; }
+
+.library, .panel-box, .group {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  margin-top: 14px;
+}
+h2 {
+  margin: 0 0 10px;
+  font-family: 'Bebas Neue', sans-serif;
+  font-weight: 400;
+  font-size: 22px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.library-row { display: flex; gap: 12px; align-items: flex-start; flex-wrap: wrap; }
+.thumbs { display: flex; gap: 8px; flex-wrap: wrap; }
+.thumbs img {
+  width: 72px; height: 72px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  cursor: pointer;
+}
+.thumbs img.selected { border-color: var(--cyan); box-shadow: 0 0 0 2px var(--cyan); }
+.library-actions { display: flex; flex-direction: column; gap: 8px; }
+.file-btn { display: inline-block; text-align: center; }
+.drop-note { color: var(--muted); font-size: 13px; margin: 10px 0 0; }
+
+.controls .group:first-child { margin-top: 0; }
+.group label { display: block; margin-bottom: 10px; font-size: 13px; color: var(--muted); }
+.group input[type="text"], .group select {
+  display: block;
+  width: 100%;
+  margin-top: 4px;
+  padding: 8px 10px;
+  background: #12081d;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--text);
+  font: inherit;
+}
+.group input[type="range"] { width: 100%; accent-color: var(--pink); }
+.field-row { display: flex; gap: 12px; }
+.field-row > * { flex: 1; min-width: 0; }
+.field-note { color: var(--muted); font-size: 13px; margin: 4px 0 0; }
+.check { display: flex !important; align-items: center; gap: 6px; color: var(--text) !important; }
+.check input { accent-color: var(--pink); }
+.slider-label { display: block; }
+.slider-pair { display: flex; gap: 10px; }
+.slider-pair input { flex: 1; }
+
+.choice-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.choice {
+  border: 2px solid var(--line);
+  background: var(--panel-2);
+  border-radius: 10px;
+  padding: 8px 6px;
+  text-align: center;
+  cursor: pointer;
+}
+.choice.selected { border-color: var(--cyan); box-shadow: 0 0 0 2px var(--cyan); }
+.choice .swatch {
+  display: block;
+  height: 34px;
+  border-radius: 6px;
+  margin-bottom: 6px;
+}
+.choice .choice-name { font-size: 12px; line-height: 1.2; }
+.choice .mini-layout {
+  display: grid;
+  gap: 2px;
+  height: 34px;
+  margin-bottom: 6px;
+}
+.choice .mini-layout i { background: #8f6bb0; border-radius: 2px; display: block; }
+
+.stars { display: inline-flex; gap: 4px; margin-top: 4px; }
+.stars button {
+  border: none;
+  background: none;
+  padding: 0 2px;
+  font-size: 24px;
+  line-height: 1;
+  color: #5b4170;
+}
+.stars button.lit { color: var(--gold); text-shadow: 0 0 8px rgba(255, 210, 63, 0.7); }
+
+.export-group .export-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 4px;
+}
+.export-group .export-buttons .btn:last-child { grid-column: 1 / -1; }
+#exportStatus { color: var(--cyan); min-height: 1.2em; margin: 10px 0 0; font-size: 13px; }
+
+/* Keep the file input keyboard-focusable (unlike [hidden]) while invisible. */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.foot {
+  max-width: 1480px;
+  margin: 0 auto;
+  padding: 0 20px 24px;
+  color: var(--muted);
+  font-size: 12px;
+}

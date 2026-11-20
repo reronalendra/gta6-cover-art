@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vice Panel Studio — GTA-style cover maker</title>
+<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark">VP</span>
+    <div>
+      <h1>Vice Panel Studio</h1>
+      <p>Turn your photos into a GTA-style poster cover. Offline, free, yours.</p>
+    </div>
+  </div>
+  <div class="top-actions">
+    <button id="undoBtn" type="button" title="Undo (Ctrl+Z)">Undo</button>
+    <button id="redoBtn" type="button" title="Redo (Ctrl+Shift+Z)">Redo</button>
+    <button id="exportCurrentBtn" type="button" class="btn primary" title="Export the current preview size">Export PNG</button>
+  </div>
+</header>
+
+<main class="studio">
+  <section class="preview-col">
+    <div class="canvas-bar">
+      <label>Preview
+        <select id="previewSize">
+          <option value="1920x1080">Landscape 1920 &times; 1080</option>
+          <option value="1080x1080">Square 1080 &times; 1080</option>
+          <option value="1080x1350">Portrait 1080 &times; 1350</option>
+          <option value="1080x1920">Story 1080 &times; 1920</option>
+        </select>
+      </label>
+    </div>
+    <div class="canvas-wrap" id="canvasWrap">
+      <canvas id="preview" width="960" height="540" aria-label="Live cover preview"></canvas>
+      <p class="canvas-hint" id="canvasHint">Drag a photo to move it &middot; drag the title to move it &middot; click a panel to select it</p>
+    </div>
+    <div class="library">
+      <h2>Photos</h2>
+      <div class="library-row">
+        <div class="thumbs" id="thumbs"></div>
+        <div class="library-actions">
+          <label class="btn file-btn">Add photos
+            <input id="photoInput" type="file" accept="image/*" multiple class="visually-hidden">
+          </label>
+          <button id="samplePierBtn" type="button" class="btn">Sample: Pier</button>
+          <button id="sampleBlvdBtn" type="button" class="btn">Sample: Boulevard</button>
+          <button id="fillAllBtn" type="button" class="btn">Fill all panels with selected</button>
+        </div>
+      </div>
+      <p class="drop-note">Or drop image files anywhere on this page.</p>
+    </div>
+    <div class="panel-box">
+      <h2>Selected panel <span id="panelName">1</span></h2>
+      <div class="field-row">
+        <label>Photo
+          <select id="panelPhoto"></select>
+        </label>
+        <label>Zoom <span id="zoomVal">1.00&times;</span>
+          <input id="panelZoom" type="range" min="1" max="3" step="0.01" value="1">
+        </label>
+      </div>
+      <p class="field-note">Drag the photo on the preview to reposition it inside its panel.</p>
+      <div class="field-row">
+        <button id="removePhotoBtn" type="button" class="btn">Remove photo</button>
+        <button id="resetCropBtn" type="button" class="btn">Reset crop</button>
+      </div>
+    </div>
+  </section>
+
+  <aside class="controls">
+    <section class="group">
+      <h2>Layout</h2>
+      <div class="choice-grid" id="layoutChoices"></div>
+    </section>
+
+    <section class="group">
+      <h2>Colour grade</h2>
+      <div class="choice-grid" id="gradeChoices"></div>
+      <label class="slider-label">Grade strength <span id="gradeStrengthVal">100%</span>
+        <input id="gradeStrength" type="range" min="0" max="100" step="1" value="100">
+      </label>
+    </section>
+
+    <section class="group">
+      <h2>Lettering</h2>
+      <label>Title
+        <input id="titleInput" type="text" maxlength="24" value="NEON SHORE">
+      </label>
+      <label>Subtitle (script)
+        <input id="subtitleInput" type="text" maxlength="48" value="a vice city story">
+      </label>
+      <label>Tagline
+        <input id="taglineInput" type="text" maxlength="48" value="OUT NOW &middot; 2026">
+      </label>
+      <div class="field-row">
+        <label>Title size <span id="titleSizeVal">100%</span>
+          <input id="titleSize" type="range" min="50" max="160" step="1" value="100">
+        </label>
+        <label>Title colour
+          <select id="titleColor">
+            <option value="#ffffff">White</option>
+            <option value="#ffd23f">Gold</option>
+            <option value="#ff5e8a">Hot pink</option>
+            <option value="#7ef9ff">Neon cyan</option>
+          </select>
+        </label>
+      </div>
+      <div class="field-row">
+        <label class="check"><input id="halftoneToggle" type="checkbox" checked> Halftone title block</label>
+        <label class="check"><input id="shadowToggle" type="checkbox" checked> Title drop shadow</label>
+      </div>
+      <label>Title position
+        <span class="slider-pair">
+          <input id="titleX" type="range" min="2" max="98" step="1" value="50" aria-label="Title horizontal position">
+          <input id="titleY" type="range" min="2" max="98" step="1" value="86" aria-label="Title vertical position">
+        </span>
+      </label>
+    </section>
+
+    <section class="group">
+      <h2>Effects</h2>
+      <div class="field-row">
+        <label class="check"><input id="grainToggle" type="checkbox" checked> Film grain</label>
+        <label class="check"><input id="vignetteToggle" type="checkbox" checked> Vignette</label>
+        <label class="check"><input id="inkToggle" type="checkbox" checked> Ink panel borders</label>
+      </div>
+      <div class="field-row">
+        <label class="check"><input id="badgeToggle" type="checkbox" checked> Badge ribbon</label>
+        <label>Badge text
+          <input id="badgeInput" type="text" maxlength="12" value="HOT">
+        </label>
+      </div>
+      <label>Heat meter
+        <span class="stars" id="heatStars" role="radiogroup" aria-label="Heat meter"></span>
+      </label>
+    </section>
+
+    <section class="group export-group">
+      <h2>Export PNG</h2>
+      <div class="export-buttons">
+        <button id="exportSquareBtn" type="button" class="btn primary">Square 1080&times;1080</button>
+        <button id="exportPortraitBtn" type="button" class="btn primary">Portrait 1080&times;1350</button>
+        <button id="exportWideBtn" type="button" class="btn primary">Wide 1920&times;1080</button>
+        <button id="exportStoryBtn" type="button" class="btn primary">Story 1080&times;1920</button>
+        <button id="exportAllBtn" type="button" class="btn">Export all four sizes</button>
+      </div>
+      <p class="field-note">Export all four sizes triggers four downloads — if your browser blocks them, allow multiple downloads for this site, or export one size at a time.</p>
+      <p id="exportStatus" role="status"></p>
+    </section>
+  </aside>
+</main>
+
+<footer class="foot">
+  <p>100% original artwork and lettering — no Rockstar Games logos, artwork or fonts. Photos stay on your machine; nothing is uploaded. Fonts: Anton, Bebas Neue and Pacifico under the SIL Open Font License.</p>
+</footer>
+
+<script type="module" src="./src/main.js"></script>
+</body>
+</html>
